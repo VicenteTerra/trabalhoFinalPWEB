@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>RecBooks</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+
+    </h:head>
+
+
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog responsive="true" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <h:graphicImage value="/resourses/img/ajaxloader.gif" />
+        </p:dialog>
+
+
+        <p:growl id="msgs" />
+        <h:form id="formLogin" >  
+            <p:panelGrid columns="2"  >
+                <f:facet  name="header">
+                    <p:outputLabel style="font-family: cursive" value="Autenticação" />
+                </f:facet>
+                <p:outputLabel style="font-family: cursive" value="Matricula" for="txMatlogin"/>
+                <p:inputText id="txMatlogin"  requiredMessage="Por favor, informe sua matricula!"
+                             required="true"
+                             value="#{userControl.user.matricula}"/>
+
+                <p:outputLabel style="font-family: cursive" value="Senha" for="txPasswordlogin"  />
+                <p:password id="txPasswordlogin"  required="true"
+                            weakLabel="Senha fraca"
+                            goodLabel="Senha boa"
+                            promptLabel="Infome sua senha"
+                            strongLabel="Senha muito boa"
+                            requiredMessage="Por favor, informe sua senha!"
+                             
+                            value="#{userControl.user.senha}"/>
+            
+            <p:commandButton style="font-family: cursive" value='Log in' update="msgs formLogin" action="#{userControl.autentica}"/>
+            <p:button style="font-family: cursive" value='Sing in' href="cadastro.xhtml"/>
+            </p:panelGrid>
+        </h:form>
+       
+        
+    </h:body>
+</html>
+

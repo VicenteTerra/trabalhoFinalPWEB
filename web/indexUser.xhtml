@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>RecBooks</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:menuButton style="font-family: cursive" value="Bem Vindo(a),#{userControl.usuarioSessao.name}">
+                        <p:menuitem  style="font-family: cursive" value="Sair" action="#{userControl.logoff}" icon="ui-icon-close" />
+                    </p:menuButton>
+                </f:facet>
+                <f:facet name="left">
+                    <p:commandButton value="Nova Recomendação" icon="ui-icon-plus" immediate="true" onclick="PF('dlg').show();"/>
+                </f:facet>
+            </p:toolbar>
+            <p:dataTable style="font-family: cursive" id="table" emptyMessage="Sem Recomendações no momento !"
+                         value="#{recsControl.listaRecs}"
+                         var="rec"
+                         reflow="true"
+                         sortBy="#{rec.recNome}">
+                <p:column style="width:32px;text-align: center">
+                    <p:commandLink  actionListener="#{recsControl.remover(rec)}" immediate="true" update="table">
+                        <i class="fa fa-remove"></i>
+                    </p:commandLink>                    
+                </p:column>
+                <p:column headerText="Títulos Recomendados">
+                    <h:outputText style="font-family: cursive" value="#{rec.recNome}"/>
+                </p:column>
+                <f:facet name="footer">
+                    Selecione <i class="fa fa-remove"></i> para descartar a recomendação!
+                </f:facet>
+            </p:dataTable>  
+            
+   </h:form>
+
+        <p:dialog style="font-family: cursive" header="Nova Recomendação" widgetVar="dlg" resizable="false" responsive="true" >
+            <h:form id="formCad">
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-8,ui-grid-col-12">
+
+                    <p:outputLabel style="font-family: cursive" value="Titulo: " for="txDescricao"/>
+                    <p:inputText id="txDescricao" required="true" 
+                                 value="#{recsControl.novaRec.recNome}"
+                                 requiredMessage="Por favor, informe o titulo da recomendação!"/>
+
+                    <p:commandButton style="font-family: cursive" value="Salvar"  action="#{recsControl.salvar2}"/>
+                </p:panelGrid> 
+            </h:form>
+        </p:dialog>
+     
+
+
+
+
+
+
+    </h:body>
+</html>
+
+

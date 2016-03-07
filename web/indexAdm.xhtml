@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>RecBooks</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:menuButton style="font-family: cursive" value="Bem Vindo(a),#{userControl.usuarioSessao.name}">
+                        <p:menuitem style="font-family: cursive" value="Gerenciar Admins"  icon="ui-icon-close" />
+                        <p:menuitem style="font-family: cursive" value="Sair" action="#{userControl.logoff}" icon="ui-icon-close" />
+
+                    </p:menuButton>
+                </f:facet>
+
+                <f:facet name="left">
+                    <p:commandButton style="font-family: cursive" value="Novo Usuario" icon="ui-icon-plus" immediate="true" onclick="PF('dlg').show();"/>
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable style="font-family: cursive" id="table" emptyMessage="Sem Usuarios cadastrados!"
+                         value="#{userControl.listUsers}"
+                         var="user"
+                         reflow="true"
+                         sortBy="#{user.name}">
+                <p:column style="width:32px;text-align: center">
+                    <p:commandLink  actionListener="#{userControl.remover(user)}" immediate="true" update="table">
+                        <i class="fa fa-remove"></i>
+                    </p:commandLink>                    
+                </p:column>
+                <p:column headerText="Usuario ">
+                    <h:outputText style="font-family: cursive" value="#{user.name}"/>
+                </p:column>
+                <p:column headerText="Matricula">
+                    <h:outputText style="font-family: cursive" value="#{user.matricula}"/>
+                </p:column>
+
+                <f:facet  name="footer">
+                    Selecione <i class=" fa fa-remove"></i> para remover o usuário!
+                </f:facet>
+            </p:dataTable>  
+
+        </h:form>
+
+        <p:dialog style="font-family: cursive" header="Novo Usuário" widgetVar="dlg" resizable="false" responsive="true">
+            <h:form id="formCad">
+                <p:growl id="msgs"/>
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-8,ui-grid-col-12">
+                    <p:outputLabel style="font-family: cursive" value="Nome" for="txUser"/>
+                    <p:inputText id="txUser" value="#{userControl.user.name}" required="true"/>
+
+                    <p:outputLabel style="font-family: cursive" value="Matrícula" for="txMat"/>
+                    <p:inputText id="txMat" value="#{userControl.user.matricula}" required="true" />
+
+                    <p:outputLabel style="font-family: cursive" value="Senha" for="txPassword"/>
+                    <p:password id="txPassword" value="#{userControl.user.senha}" required="true"
+
+                                weakLabel="Senha fraca"
+                                goodLabel="Senha boa"
+                                promptLabel="Infome sua senha"
+                                strongLabel="Senha muito boa"/>
+
+                    <p:outputLabel style="font-family: cursive" value="Repita a Senha" for="txPassword2"/>
+                    <p:password id="txPassword2" value="#{userControl.checkpassword}" required="true"
+                                requiredMessage="Por favor, confirme sua senha!"
+                                weakLabel="Senha fraca"
+                                goodLabel="Senha boa"
+                                promptLabel="Infome sua senha"
+                                strongLabel="Senha muito boa"/>
+                </p:panelGrid>
+                <p:commandButton  style="font-family: cursive" value="Cadastrar" update="msgs formCad" action="#{userControl.cadastroAdm}"/>
+
+
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+
+
+    </h:body>
+</html>
+
+
+
