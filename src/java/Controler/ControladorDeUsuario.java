@@ -61,7 +61,10 @@ public class ControladorDeUsuario {
                 user.getSenha());
 
         recomendar(livroDAO.todas(), usuarioSessao);
-
+        usuarioDAO.atualizaUsuario(usuarioSessao);
+        for (Rec a : usuarioSessao.getListaDeRecs()) {
+            System.out.println("recs : " + a.getLivro().getTitulo());
+        }
         // user = new Usuario();
         if (usuarioSessao == null) {
             Mensagens.adicionarMensagem(
@@ -71,6 +74,7 @@ public class ControladorDeUsuario {
             return "index.xhtml?faces-redirect=true";
         }
         if (usuarioSessao.getTipoUsuario() == 0) {
+
             return "indexUser.xhtml?faces-redirect=true";
         } else {
             carregarUsers();
@@ -93,7 +97,7 @@ public class ControladorDeUsuario {
                         }
                     }
                 }
-
+                recomendar(livroDAO.todas(), user);
                 user.setTipoUsuario(0);
                 usuarioDAO.salvar(user);
                 user = new Usuario();
@@ -127,10 +131,13 @@ public class ControladorDeUsuario {
     public void recomendar(List<Livro> livros, Usuario user) {
         boolean flag = false;
         for (Livro livro : livros) {
+
             for (Genero generoLivro : livro.getListaDeGeneros()) {
                 for (Genero interesseUser : user.getListaDeInteresses()) {
+
                     if (generoLivro.getNome().equals(interesseUser.getNome())) {
                         for (Rec recsUser : user.getListaDeRecs()) {
+
                             if (recsUser.getLivro().getTitulo().equals(livro.getTitulo())) {
                                 flag = true;
                             }
@@ -138,13 +145,15 @@ public class ControladorDeUsuario {
                         if (flag == false) {
                             Rec rec = new Rec();
                             rec.setLivro(livro);
+                            recDAO.salvar(rec);
                             user.getListaDeRecs().add(rec);
                         }
+                        flag = false;
                     }
                 }
             }
         }
-        usuarioDAO.atualizaUsuario(user);
+
     }
 
     public String remover(Usuario user) {

@@ -44,7 +44,7 @@ public class Usuario implements Serializable {
     // private List<String> listaInteresses = new ArrayList();
     @ManyToMany
     private List<Genero> listaDeInteresses = new ArrayList();
-    @OneToMany
+    @ManyToMany
     private List<Rec> listaDeRecs = new ArrayList();
 
     public List<Rec> getListaDeRecs() {

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -18,15 +19,13 @@ import javax.persistence.OneToOne;
  * @author Vicente
  */
 @Entity
-//@NamedQuery(name = Rec.TODAS_RECOMENDACOES, query = "select u from Rec u where u.user.id = :id_user ")
-
 public class Rec implements Serializable {
     public static final String TODAS_RECOMENDACOES = "Rec.todasRecomendacoes";
     
     @Id @GeneratedValue
     private long id;
     private int recAvaliacao;
-    @OneToOne
+    @ManyToOne
     private Livro livro;
 
    
