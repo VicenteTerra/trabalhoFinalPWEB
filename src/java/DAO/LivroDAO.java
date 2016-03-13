@@ -1,0 +1,26 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAO;
+
+import java.util.List;
+import model.Genero;
+import model.Livro;
+
+/**
+ *
+ * @author Vicente
+ */
+public interface LivroDAO {
+
+    public void salvar(Livro novoLivro);
+
+    public void remover(long id);
+
+    public List<Livro> todas();
+    
+    //public List<Genero> generosPorId(long id);
+    
+}

@@ -5,8 +5,12 @@
  */
 package Controler;
 
+import DAO.GeneroDAO;
+import DAO.LivroDAO;
 import DAO.RecDAO;
 import DAO.UsuarioDAO;
+import JPA.DAO.JPAGenero;
+import JPA.DAO.JPALivro;
 import JPA.DAO.JPARec;
 import JPA.DAO.JPAUsuario;
 import Util.Mensagens;
@@ -26,6 +30,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
 import javax.servlet.http.HttpSession;
+import model.Genero;
+import model.Livro;
 import model.Rec;
 import model.Usuario;
 
@@ -39,31 +45,24 @@ public class ControladorDeUsuario {
 
     private final UsuarioDAO usuarioDAO = new JPAUsuario();
     private final RecDAO recDAO = new JPARec();
+    private final GeneroDAO generoDAO = new JPAGenero();
+    private final LivroDAO livroDAO = new JPALivro();
     private Usuario usuarioSessao = null;
     private Usuario user = new Usuario();
     private String checkpassword;
     private List<Usuario> listUsers = new ArrayList();
+    private List<Genero> listaTodosGeneros = new ArrayList();
+    private String[] selectedInteresses;
+    private List<String> listaNome = generoDAO.todosporNome();
     // private Usuario usuarioLogado = Sessao.obterUsuarioSessao();
 
     public String autentica() {
         usuarioSessao = usuarioDAO.autenticaMatriculaeSenha(user.getMatricula(),
                 user.getSenha());
 
-        Rec rec1 = new Rec();
-        Rec rec2 = new Rec();
-        Rec rec3 = new Rec();
-        rec1.setRecNome("recs1");
-        rec1.setUser(usuarioSessao);
-        rec2.setRecNome("recs2");
-        rec2.setUser(usuarioSessao);
-        rec3.setRecNome("recs3");
-        rec3.setUser(usuarioSessao);
+        recomendar(livroDAO.todas(), usuarioSessao);
 
-        recDAO.salvar(rec1);
-        recDAO.salvar(rec2);
-        recDAO.salvar(rec3);
-
-        user = new Usuario();
+        // user = new Usuario();
         if (usuarioSessao == null) {
             Mensagens.adicionarMensagem(
                     FacesMessage.SEVERITY_ERROR,
@@ -84,8 +83,31 @@ public class ControladorDeUsuario {
 
         try {
             if (user.getSenha().equals(checkpassword)) {
+
+                listaTodosGeneros = generoDAO.todas();
+
+                for (Genero a : listaTodosGeneros) {
+                    for (String b : selectedInteresses) {
+                        if (a.getNome().equals(b)) {
+                            user.getListaDeInteresses().add(a);
+                        }
+                    }
+                }
+
                 user.setTipoUsuario(0);
                 usuarioDAO.salvar(user);
+
+                /*  for (Genero a : listaTodosGeneros) {
+                    for (String b : selectedInteresses) {
+                        if (a.getNome().equals(b)) {
+                            Genero novoGenero = new Genero();
+                            novoGenero.setNome(a.getNome());
+                            novoGenero.setUser(user);
+                            generoDAO.salvar(novoGenero);
+                        }
+                    }
+                }*/
+                //listaGeneroUser = usuarioDAO.generosPorId(user.getId());
                 user = new Usuario();
 
                 Mensagens.adicionarMensagem(
@@ -113,6 +135,7 @@ public class ControladorDeUsuario {
 
         return "";
     }
+
     public String cadastroAdm() throws RollbackException {
 
         try {
@@ -146,6 +169,30 @@ public class ControladorDeUsuario {
 
         return "";
     }
+
+    public void recomendar(List<Livro> livros, Usuario user) {
+        boolean flag = false;
+        for (Livro livro : livros) {
+            for (Genero generoLivro : livro.getListaDeGeneros()) {
+                for (Genero interesseUser : user.getListaDeInteresses()) {
+                    if (generoLivro.getNome().equals(interesseUser.getNome())) {
+                        for(Rec recsUser : user.getListaDeRecs()){
+                            if(recsUser.getLivro().getTitulo().equals(livro.getTitulo())){
+                                flag = true;
+                            }
+                        }
+                        if(flag == false){
+                            Rec rec = new Rec();
+                            rec.setLivro(livro);
+                            user.getListaDeRecs().add(rec);
+                        }
+                    }
+                }
+            }
+        }
+        usuarioDAO.atualizaUsuario(user);
+    }
+
     public String remover(Usuario user) {
         usuarioDAO.remover(user.getId());
 
@@ -162,9 +209,26 @@ public class ControladorDeUsuario {
         user = new Usuario();
         return "index.xhtml?faces-redirect=true";
     }
+
     @PostConstruct
     public void carregarUsers() {
         listUsers = usuarioDAO.todas();
+    }
+
+    public List<Genero> getListaTodosGeneros() {
+        return listaTodosGeneros;
+    }
+
+    public void setListaTodosGeneros(List<Genero> listaTodosGeneros) {
+        this.listaTodosGeneros = listaTodosGeneros;
+    }
+
+    public List<String> getListaNome() {
+        return listaNome;
+    }
+
+    public void setListaNome(List<String> listaNome) {
+        this.listaNome = listaNome;
     }
 
     public List<Usuario> getListUsers() {
@@ -197,6 +261,14 @@ public class ControladorDeUsuario {
 
     public void setUser(Usuario user) {
         this.user = user;
+    }
+
+    public String[] getSelectedInteresses() {
+        return selectedInteresses;
+    }
+
+    public void setSelectedInteresses(String[] selectedInteresses) {
+        this.selectedInteresses = selectedInteresses;
     }
 
 }

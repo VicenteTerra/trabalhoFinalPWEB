@@ -11,30 +11,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Vicente
  */
 @Entity
-@NamedQuery(name = Rec.TODAS_RECOMENDACOES, query = "select u from Rec u where u.user.id = :id_user ")
+//@NamedQuery(name = Rec.TODAS_RECOMENDACOES, query = "select u from Rec u where u.user.id = :id_user ")
 
 public class Rec implements Serializable {
     public static final String TODAS_RECOMENDACOES = "Rec.todasRecomendacoes";
     
     @Id @GeneratedValue
     private long id;
-    private String recNome;
     private int recAvaliacao;
-    @ManyToOne
-    private Usuario user;
+    @OneToOne
+    private Livro livro;
 
-    public Usuario getUser() {
-        return user;
+   
+
+    public Livro getLivro() {
+        return livro;
     }
 
-    public void setUser(Usuario user) {
-        this.user = user;
+    public void setLivro(Livro livro) {
+        this.livro = livro;
     }
 
     public long getId() {
@@ -45,13 +47,7 @@ public class Rec implements Serializable {
         this.id = id;
     }
 
-    public String getRecNome() {
-        return recNome;
-    }
-
-    public void setRecNome(String recNome) {
-        this.recNome = recNome;
-    }
+   
 
     public int getRecAvaliacao() {
         return recAvaliacao;

@@ -35,13 +35,11 @@ public class ControladorDeRecs {
     private Usuario usuarioLogado = Sessao.obterUsuarioSessao();
 
     public String salvar2() {
-        Usuario usuarioSessao = new Usuario();
-        usuarioSessao = Sessao.obterUsuarioSessao();
 
-        novaRec.setUser(usuarioSessao);
+       
         recDAO.salvar(novaRec);
 
-        carregarRecs();
+        //carregarRecs();
         Mensagens.adicionarMensagem(FacesMessage.SEVERITY_INFO,
                 "Recomendação cadastrada com sucesso!", null);
         novaRec = new Rec();
@@ -50,7 +48,7 @@ public class ControladorDeRecs {
 
     public String remover(Rec rec) {
         recDAO.remover(rec.getId());
-        carregarRecs();
+       // carregarRecs();
         Mensagens.adicionarMensagem(FacesMessage.SEVERITY_INFO,
                 "Recomendação excluida com sucesso!", null);
 
@@ -58,23 +56,20 @@ public class ControladorDeRecs {
     }
 
     public void salvar(Rec rec) {
-        Usuario usuarioSessao = new Usuario();
-        usuarioSessao = Sessao.obterUsuarioSessao();
 
-        rec.setUser(usuarioSessao);
         recDAO.salvar(rec);
 
-        carregarRecs();
+        //carregarRecs();
         Mensagens.adicionarMensagem(FacesMessage.SEVERITY_INFO,
                 "Recomendação cadastrada com sucesso!", null);
 
         //return "tarefas.xhtml?faces-redirect=true";
     }
 
-    @PostConstruct
+    /*@PostConstruct
     public void carregarRecs() {
         listaRecs = recDAO.todas(usuarioLogado.getId());
-    }
+    }*/
 
     public Rec getNovaRec() {
         return novaRec;

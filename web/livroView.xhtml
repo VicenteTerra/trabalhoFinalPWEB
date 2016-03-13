@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>RecBooks</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+        <p:growl id="msgs"/>
+        <h:form>
+
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:menuButton style="font-family: cursive" value="Bem Vindo(a),#{userControl.usuarioSessao.name}">
+                        <p:menuitem style="font-family: cursive" value="Gerenciar Usuarios"  action="indexAdm"  />
+                        <p:menuitem style="font-family: cursive" value="Gerenciar Generos" action="generoView"  />
+                        <p:menuitem style="font-family: cursive" value="Sair" action="#{userControl.logoff}" icon="ui-icon-close" />
+                    </p:menuButton>
+                </f:facet>
+
+                <f:facet name="left">
+                    <p:commandButton style="font-family: cursive" value="Novo Livro" icon="ui-icon-plus" immediate="true" onclick="PF('dlg').show();"/>
+                </f:facet>
+            </p:toolbar>
+
+            <h:form id="form" >
+                <p:dataGrid var="livro" value="#{livroControl.listaLivro}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="cars"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16"
+                            emptyMessage="Sem livros Cadastrados.">
+
+                    <f:facet name="header">
+                        Livros Recomendados
+                    </f:facet>
+
+                    <p:panel header="#{livro.titulo}" style="text-align:center" >
+                        <h:panelGrid columns="1" style="width:100%" >
+
+                            <p:graphicImage value="/resourses/img/filme.jpg"/> 
+
+                            <p:commandLink  oncomplete="PF('carDialog').show()" title="Ver Detalhes">
+                                <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                <f:setPropertyActionListener value="#{livro}" target="#{livroControl.selectedLivro}" />
+                            </p:commandLink>
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:dataGrid>
+            </h:form>
+            <p:dialog responsive="true" header="Detalhes Do Livro" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade"  draggable="false" resizable="false">
+                <p:outputPanel id="livroDetail" style="text-align:left;" autoUpdate="true">
+                    <p:panelGrid  columns="2" rendered="#{not empty livroControl.selectedLivro}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage  value="/resourses/img/filme.jpg" /> 
+                        </f:facet>
+
+                        <h:outputText value="Titulo" />
+                        <h:outputText value="#{livroControl.selectedLivro.titulo}"/>
+
+                        <h:outputText value="Autor" />
+                        <h:outputText value="#{livroControl.selectedLivro.autor}"  />
+
+                        <h:outputText value="Genero" />
+                        <p:dataGrid value="#{livroControl.selectedLivro.listaDeGeneros}" var="interesse">
+                            #{interesse.nome}
+                        </p:dataGrid>
+
+                        <h:outputText value="Descrição" />
+                        <h:outputText value="#{livroControl.selectedLivro.descricao}"  />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+
+        <p:dialog style="font-family: cursive" header="Novo Livro" widgetVar="dlg" resizable="false" responsive="true">
+            <h:form id="formCad">
+
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-12,ui-grid-col-18">
+
+                    <p:outputLabel style="font-family: cursive" value="Titulo" for="txUser"/>
+                    <p:inputText id="txUser" value="#{livroControl.novoLivro.titulo}" required="true"/>
+
+                    <p:outputLabel style="font-family: cursive" value="Autor" for="txMat"/>
+                    <p:inputText id="txMat" value="#{livroControl.novoLivro.autor}" required="true" />
+
+                    <p:outputLabel style="font-family: cursive" value="Descrição" for="txDesc"/>
+                    <p:inputText id="txDesc" value="#{livroControl.novoLivro.descricao}"  />
+
+                    <h:form>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <h:outputLabel for="menu" value="Location:" />
+                            <p:selectCheckboxMenu id="menu" value="#{livroControl.selectedGeneros}" label="Genero"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+
+                                <f:selectItems value="#{livroControl.listaNome}" />
+
+                            </p:selectCheckboxMenu>
+                            <p:commandButton value="Submit" update="display" />
+                        </h:panelGrid>
+
+                        <p:outputPanel id="display" style="width:250px;padding-left:5px;margin-top:10px">
+                            <p:dataList value="#{livroControl.selectedGeneros}" var="city" emptyMessage="Nenhum Genero Selecionado">
+                                #{city}
+                            </p:dataList>
+                        </p:outputPanel>
+                    </h:form>
+
+
+                </p:panelGrid>
+                <p:commandButton  style="font-family: cursive" value="Cadastrar" 
+                                  update="msgs formCad" action="#{livroControl.salvar()}"/>
+
+
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+
+
+    </h:body>
+</html>
+
+
+
+

@@ -6,6 +6,7 @@
 package DAO;
 
 import java.util.List;
+import model.Genero;
 import model.Rec;
 import model.Usuario;
 
@@ -16,12 +17,14 @@ import model.Usuario;
 public interface UsuarioDAO {
 
     public void salvar(Usuario usuario);
-    
+
     public Usuario autenticaMatriculaeSenha(String matricula, String senha);
-    
+
     public void remover(Long iduser);
-    
+
     public List<Usuario> todas();
-   
-    
+
+    public List<Genero> generosPorId(long id);
+
+    public void atualizaUsuario(Usuario user);
 }

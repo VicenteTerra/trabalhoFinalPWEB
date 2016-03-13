@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import model.Genero;
 import model.Rec;
 import model.Usuario;
 
@@ -65,5 +66,21 @@ public class JPAUsuario implements UsuarioDAO, Serializable {
         List<Usuario> usuarios = tq.getResultList();
         em.close();
         return usuarios;
+    }
+   
+    public List<Genero> generosPorId(long id) {
+         EntityManager em = JPAUtil.getEMF().createEntityManager();
+        TypedQuery<Genero> tq = em.createNamedQuery(Usuario.GENEROS_POR_ID,
+                Genero.class);
+        tq.setParameter("id", id);
+        List<Genero> generos = tq.getResultList();
+        em.close();
+        return generos;
+    }
+    
+    public void atualizaUsuario(Usuario user){
+         EntityManager em = JPAUtil.getEMF().createEntityManager();
+         em.merge(user);
+         em.close();
     }
 }
