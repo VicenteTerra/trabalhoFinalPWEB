@@ -41,7 +41,7 @@
                     <p:panel header="#{livro.titulo}" style="text-align:center" >
                         <h:panelGrid columns="1" style="width:100%" >
 
-                            <p:graphicImage value="/resourses/img/filme.jpg"/> 
+                            <p:graphicImage value="/resourses/img/livro.png"/> 
 
                             <p:commandLink  oncomplete="PF('carDialog').show()" title="Ver Detalhes">
                                 <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
@@ -57,7 +57,7 @@
                 <p:outputPanel id="livroDetail" style="text-align:left;" autoUpdate="true">
                     <p:panelGrid style="height: 370px; width: 570px" columns="2" rendered="#{not empty livroControl.selectedLivro}" columnClasses="label,value">
                         <f:facet name="header">
-                            <p:graphicImage  value="/resourses/img/filme.jpg" /> 
+                            <p:graphicImage  value="/resourses/img/livro.png" /> 
                         </f:facet>
 
                         <h:outputText value="Titulo" />
@@ -96,7 +96,7 @@
                     <h:form>
                         <h:panelGrid columns="3" cellpadding="5">
                             <h:outputLabel for="menu" value="Location:" />
-                            <p:selectCheckboxMenu id="menu" value="#{livroControl.selectedGeneros}" label="Genero"
+                            <p:selectCheckboxMenu required="true" id="menu" value="#{livroControl.selectedGeneros}" label="Genero"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 
                                 <f:selectItems value="#{livroControl.listaNome}" />
