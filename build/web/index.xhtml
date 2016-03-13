@@ -8,21 +8,20 @@
     <h:head>
         <title>RecBooks</title>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
-
     </h:head>
 
-
     <h:body >
-
-        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-
-        <p:dialog responsive="true" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+        
+        <p:growl id="msgs"/>
+        <p:ajaxStatus  onstart="PF('statusDialog').show()"  onsuccess="PF('statusDialog').hide()" />
+        <p:dialog  responsive="true" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
             <h:graphicImage value="/resourses/img/ajaxloader.gif" />
         </p:dialog>
-        <p:growl id="msgs" />
-        <p:panel  style="width:90%; height:100%;background-image: url(resourses/img/fundo2.jpg); ">
+
+        <p:panel style="width:90%; height:100%;background-image: url(resourses/img/fundo2.jpg); ">
             <h:form id="formLogin"  >  
-                <p:panelGrid columns="2"  style="width:36%; margin-left:auto; margin-right:auto; "  >
+                <p:panelGrid columns="1"  style="width:36%; margin-left:auto; margin-right:auto; "  >
+
                     <f:facet  name="header">
                         <p:outputLabel style="font-family: cursive" value="Autenticação" />
                     </f:facet>
@@ -36,9 +35,12 @@
                     <p:password id="txPasswordlogin"  required="true" 
                                 requiredMessage="Por favor, informe sua senha"
                                 value="#{userControl.user.senha}"/>
+                    <h:panelGroup >
+                   <p:commandButton icon="ui-icon-circle-arrow-e" style="font-family: cursive;width:140px; margin-left:auto; margin-right:auto;" value='Entrar' update="msgs formLogin" action="#{userControl.autentica}"/>
+                    <p:button style="font-family: cursive;width:260px; margin-left:auto; margin-right:auto;" value='Cadastrar Novo Usuario' href="cadastro.xhtml"/>
+                    </h:panelGroup>
                 </p:panelGrid>
-                <p:commandButton icon="ui-icon-circle-arrow-e" style="font-family: cursive;width:120px; margin-left:32%; margin-right:auto;" value='Entrar' update="msgs formLogin" action="#{userControl.autentica}"/>
-                <p:button style="font-family: cursive;width:300px; margin-left:auto; margin-right:auto;" value='Cadastrar Novo Usuario' href="cadastro.xhtml"/>
+
 
 
             </h:form>

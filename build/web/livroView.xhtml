@@ -53,9 +53,9 @@
 
                 </p:dataGrid>
             </h:form>
-            <p:dialog responsive="true" header="Detalhes Do Livro" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade"  draggable="false" resizable="false">
+            <p:dialog height="400" width="600" responsive="true" header="Detalhes Do Livro" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade"  draggable="false" resizable="false">
                 <p:outputPanel id="livroDetail" style="text-align:left;" autoUpdate="true">
-                    <p:panelGrid  columns="2" rendered="#{not empty livroControl.selectedLivro}" columnClasses="label,value">
+                    <p:panelGrid style="height: 370px; width: 570px" columns="2" rendered="#{not empty livroControl.selectedLivro}" columnClasses="label,value">
                         <f:facet name="header">
                             <p:graphicImage  value="/resourses/img/filme.jpg" /> 
                         </f:facet>

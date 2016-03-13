@@ -21,7 +21,7 @@
                     </p:menuButton>
                 </f:facet>
 
-            
+
             </p:toolbar>
 
             <p:dataTable style="font-family: cursive" id="table" emptyMessage="Sem Usuarios cadastrados!"
@@ -30,10 +30,16 @@
                          reflow="true"
                          sortBy="#{user.name}">
                 <p:column style="width:32px;text-align: center">
-                    <p:commandLink  actionListener="#{userControl.remover(user)}" immediate="true" update="table msgs">
-                        <i class="fa fa-remove"></i>
-                    </p:commandLink>                    
-                </p:column>
+                        <p:commandLink  actionListener="#{userControl.remover(user)}" immediate="true" update="table msgs">
+                            <i class="fa fa-remove"></i>
+                            <p:confirm header="Confirmação" message="Deseja realmente remover o usuario?" icon="ui-icon-alert" />
+                        </p:commandLink>   
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>                 
+                    </p:column>
+                
                 <p:column headerText="Usuario ">
                     <h:outputText style="font-family: cursive" value="#{user.name}"/>
                 </p:column>

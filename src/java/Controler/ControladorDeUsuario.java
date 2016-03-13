@@ -68,7 +68,7 @@ public class ControladorDeUsuario {
                     FacesMessage.SEVERITY_ERROR,
                     "Email ou senha inválidos!",
                     null);
-            return null;
+            return "index.xhtml?faces-redirect=true";
         }
         if (usuarioSessao.getTipoUsuario() == 0) {
             return "indexUser.xhtml?faces-redirect=true";
@@ -96,18 +96,6 @@ public class ControladorDeUsuario {
 
                 user.setTipoUsuario(0);
                 usuarioDAO.salvar(user);
-
-                /*  for (Genero a : listaTodosGeneros) {
-                    for (String b : selectedInteresses) {
-                        if (a.getNome().equals(b)) {
-                            Genero novoGenero = new Genero();
-                            novoGenero.setNome(a.getNome());
-                            novoGenero.setUser(user);
-                            generoDAO.salvar(novoGenero);
-                        }
-                    }
-                }*/
-                //listaGeneroUser = usuarioDAO.generosPorId(user.getId());
                 user = new Usuario();
 
                 Mensagens.adicionarMensagem(
@@ -136,52 +124,18 @@ public class ControladorDeUsuario {
         return "";
     }
 
-    public String cadastroAdm() throws RollbackException {
-
-        try {
-            if (user.getSenha().equals(checkpassword)) {
-                user.setTipoUsuario(0);
-                usuarioDAO.salvar(user);
-                user = new Usuario();
-
-                Mensagens.adicionarMensagem(
-                        FacesMessage.SEVERITY_INFO,
-                        "Inserção bem sucedida!",
-                        null);
-                carregarUsers();
-                return "indexAdm.xhtml?faces-redirect=true";
-            } else {
-                Mensagens.adicionarMensagem(
-                        FacesMessage.SEVERITY_ERROR,
-                        "As senhas informadas não conferem!",
-                        null);
-            }
-        } catch (RollbackException e) {
-            Mensagens.adicionarMensagem(
-                    FacesMessage.SEVERITY_ERROR,
-                    "Matricula já existe!",
-                    null);
-            user.setMatricula("");
-
-            return "cadastro.xhtml?faces-redirect=true";
-
-        }
-
-        return "";
-    }
-
     public void recomendar(List<Livro> livros, Usuario user) {
         boolean flag = false;
         for (Livro livro : livros) {
             for (Genero generoLivro : livro.getListaDeGeneros()) {
                 for (Genero interesseUser : user.getListaDeInteresses()) {
                     if (generoLivro.getNome().equals(interesseUser.getNome())) {
-                        for(Rec recsUser : user.getListaDeRecs()){
-                            if(recsUser.getLivro().getTitulo().equals(livro.getTitulo())){
+                        for (Rec recsUser : user.getListaDeRecs()) {
+                            if (recsUser.getLivro().getTitulo().equals(livro.getTitulo())) {
                                 flag = true;
                             }
                         }
-                        if(flag == false){
+                        if (flag == false) {
                             Rec rec = new Rec();
                             rec.setLivro(livro);
                             user.getListaDeRecs().add(rec);

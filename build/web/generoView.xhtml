@@ -31,16 +31,7 @@
                          var="genero"
                          reflow="true"
                          sortBy="#{genero.nome}">
-                <p:column style="width:32px;text-align: center">
-                    <p:commandLink  actionListener="#{generoControl.remover(genero)}" immediate="true" update="table msgs">
-                        <i class="fa fa-remove"></i>
-                   <p:confirm header="Confirmação" message="Deseja realmente remover o genero?" icon="ui-icon-alert" />
-                    </p:commandLink>   
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
-                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>                 
-                </p:column>
+              
                 <p:column headerText="Genero">
                     <h:outputText style="font-family: cursive" value="#{genero.nome}"/>
                 </p:column>

@@ -14,10 +14,8 @@ and open the template in the editor.
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
     </h:head>
     <h:body>
-
-        <p:outputLabel style="font-family: cursive">Cadastro de Usuários</p:outputLabel>
-
         <p:growl id="msgs"/>
+        <p:outputLabel style="font-family: cursive">Cadastro de Usuários</p:outputLabel>
         <h:form id="formCadastro">
             <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-10">
                 <p:outputLabel style="font-family: cursive" value="Nome" for="txUser"/>
@@ -34,26 +32,21 @@ and open the template in the editor.
                 <p:password id="txPassword2" value="#{userControl.checkpassword}" required="true"
                             requiredMessage="Por favor, confirme sua senha!"
                            />
-                <h:form>
-                <h:panelGrid columns="4" cellpadding="5" >
-                    <h:outputLabel for="menu" />
-                    <p:selectCheckboxMenu id="menu" value="#{userControl.selectedInteresses}" label="Interesses"
+                <h:panelGroup>
+                   <p:selectCheckboxMenu title="Selecione Seus Interesses" id="menu" value="#{userControl.selectedInteresses}" label="Interesses"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
                         <f:selectItems value="#{userControl.listaNome}" />
-                    </p:selectCheckboxMenu>
-                    <p:commandButton value="Submit" update="display" />
-
-                </h:panelGrid>
+                   </p:selectCheckboxMenu>
+                   
                     <p:outputPanel id="display" style="width:250px;padding-left:5px;margin-top:10px">
-                        <p:dataList value="#{userControl.selectedInteresses}" var="city" emptyMessage="Nenhum Interesse Selecionado">
+                        <p:dataList  value="#{userControl.selectedInteresses}" var="city" emptyMessage="Nenhum Interesse Selecionado">
                             #{city}
                         </p:dataList>
                     </p:outputPanel>
-                </h:form>
-
-
+                    <p:commandButton  value="Confirme os Interesses" update="display" /> 
+                </h:panelGroup>
             </p:panelGrid>
-            <p:commandButton  style="font-family: cursive" value="Cadastrar" update="msgs formCadastro" action="#{userControl.cadastro}"/>
+            <p:commandButton  resetValues="true" style="font-family: cursive" value="Cadastrar" update="msgs formCadastro display" action="#{userControl.cadastro}"/>
             <p:button  style="font-family: cursive" value="Voltar" href="index.xhtml"/>
         </h:form>
 
