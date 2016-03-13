@@ -12,45 +12,38 @@
     </h:head>
 
 
-    <h:body>
+    <h:body >
+
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
         <p:dialog responsive="true" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
             <h:graphicImage value="/resourses/img/ajaxloader.gif" />
         </p:dialog>
-
-        <p:panel style="width:99%; height:100%;">
-            
         <p:growl id="msgs" />
-        <h:form id="formLogin" >  
-            <p:panelGrid columns="2"  style="width:90%; margin-left:auto; margin-right:auto; " >
-                <f:facet  name="header">
-                    <p:outputLabel style="font-family: cursive" value="Autenticação" />
-                </f:facet>
-                <p:outputLabel style="font-family: cursive" value="Matricula" for="txMatlogin"/>
-                <p:inputText id="txMatlogin"  requiredMessage="Por favor, informe sua matricula!"
-                             required="true"
-                             value="#{userControl.user.matricula}"/>
+        <p:panel  style="width:90%; height:100%;background-image: url(resourses/img/fundo2.jpg); ">
+            <h:form id="formLogin"  >  
+                <p:panelGrid columns="2"  style="width:36%; margin-left:auto; margin-right:auto; "  >
+                    <f:facet  name="header">
+                        <p:outputLabel style="font-family: cursive" value="Autenticação" />
+                    </f:facet>
 
-                <p:outputLabel style="font-family: cursive" value="Senha" for="txPasswordlogin"  />
-                <p:password id="txPasswordlogin"  required="true"
-                            weakLabel="Senha fraca"
-                            goodLabel="Senha boa"
-                            promptLabel="Infome sua senha"
-                            strongLabel="Senha muito boa"
-                            requiredMessage="Por favor, informe sua senha!"
-                             
-                            value="#{userControl.user.senha}"/>
-            
-            
-            </p:panelGrid>
-            <p:commandButton style="font-family: cursive;width:100px; margin-left:5%; margin-right:auto;" value='Entrar' update="msgs formLogin" action="#{userControl.autentica}"/>
-            <p:button style="font-family: cursive;width:300px; margin-left:auto; margin-right:auto;" value='Cadastrar Novo Usuario' href="cadastro.xhtml"/>
-           
-            
-        </h:form>
+                    <p:outputLabel style="font-family: cursive" value="Matricula" for="txMatlogin"/>
+                    <p:inputText id="txMatlogin"  requiredMessage="Por favor, informe sua matricula!"
+                                 required="true"
+                                 value="#{userControl.user.matricula}"/>
+
+                    <p:outputLabel style="font-family: cursive" value="Senha" for="txPasswordlogin"  />
+                    <p:password id="txPasswordlogin"  required="true" 
+                                requiredMessage="Por favor, informe sua senha"
+                                value="#{userControl.user.senha}"/>
+                </p:panelGrid>
+                <p:commandButton icon="ui-icon-circle-arrow-e" style="font-family: cursive;width:120px; margin-left:32%; margin-right:auto;" value='Entrar' update="msgs formLogin" action="#{userControl.autentica}"/>
+                <p:button style="font-family: cursive;width:300px; margin-left:auto; margin-right:auto;" value='Cadastrar Novo Usuario' href="cadastro.xhtml"/>
+
+
+            </h:form>
         </p:panel>
-        
+
     </h:body>
 </html>
 

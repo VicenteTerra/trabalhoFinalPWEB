@@ -17,9 +17,7 @@
                         <p:menuitem  style="font-family: cursive" value="Sair" action="#{userControl.logoff}" icon="ui-icon-close" />
                     </p:menuButton>
                 </f:facet>
-                <f:facet name="left">
-                    <p:commandButton value="Novo Interesse" icon="ui-icon-plus" immediate="true" onclick="PF('dlg').show();"/>
-                </f:facet>
+                
             </p:toolbar>
 
             <p:dataTable style="font-family: cursive" value="#{userControl.usuarioSessao.listaDeInteresses}" var="interesses">
