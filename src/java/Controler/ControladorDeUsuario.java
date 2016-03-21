@@ -173,6 +173,15 @@ public class ControladorDeUsuario {
         return "index.xhtml?faces-redirect=true";
     }
 
+    public String atualizaDados() {
+        System.out.println(" novo nome " + usuarioSessao.getName());
+        usuarioDAO.atualizaUsuario(usuarioSessao);
+        Mensagens.adicionarMensagem(FacesMessage.SEVERITY_INFO,
+                "Usuario Alterado!", null);
+        return "indexUser.xhtml?faces-redirect=true";
+
+    }
+
     @PostConstruct
     public void carregarUsers() {
         listUsers = usuarioDAO.todas();

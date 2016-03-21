@@ -10,14 +10,16 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
     </h:head>
     <h:body>
+        <p:growl id="msgs"/>
         <h:form>
             <p:toolbar>
                 <f:facet name="right">
                     <p:menuButton style="font-family: cursive" value="Bem Vindo(a),#{userControl.usuarioSessao.name}">
                         <p:menuitem  style="font-family: cursive" value="Sair" action="#{userControl.logoff}" icon="ui-icon-close" />
                     </p:menuButton>
+                    <p:commandButton value="edit" onclick="PF('dlg2').show();" immediate="true"/> 
                 </f:facet>
-                
+ 
             </p:toolbar>
 
             <p:dataTable style="font-family: cursive" value="#{userControl.usuarioSessao.listaDeInteresses}" var="interesses">
@@ -97,6 +99,15 @@
                 <p:commandButton value="Adicionar"/>
             </h:form>
         </p:dialog>
+          
+        <p:dialog style="font-family: cursive" header="Dados Usuario" widgetVar="dlg2" resizable="false" responsive="true" >
+            <h:form id="formEdit">
+                <p:outputLabel value="Nome : " for="txName"/>
+                <p:inputText id="txName" value="#{userControl.usuarioSessao.name}"/>
+                <p:commandButton value="Atualizar" action="#{userControl.atualizaDados()}" update="msgs formEdit"/>
+            </h:form>
+        </p:dialog>
+        
 
 
 

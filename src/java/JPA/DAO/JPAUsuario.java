@@ -80,7 +80,13 @@ public class JPAUsuario implements UsuarioDAO, Serializable {
     
     public void atualizaUsuario(Usuario user){
          EntityManager em = JPAUtil.getEMF().createEntityManager();
-         em.merge(user);
-         em.close();
+         System.out.println(" " + user.getName());
+       try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 }
